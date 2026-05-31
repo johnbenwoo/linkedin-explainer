@@ -1,11 +1,12 @@
 // Generation definitions
+const currentYear = new Date().getFullYear();
 const generations = {
     silent: { start: 1928, end: 1945, name: 'Silent Generation' },
     boomer: { start: 1946, end: 1964, name: 'Baby Boomer' },
     genx: { start: 1965, end: 1980, name: 'Generation X' },
     millennial: { start: 1981, end: 1996, name: 'Millennial' },
     genz: { start: 1997, end: 2012, name: 'Generation Z' },
-    genalpha: { start: 2013, end: 2025, name: 'Generation Alpha' }
+    genalpha: { start: 2013, end: Infinity, name: 'Generation Alpha' }
 };
 
 // Regional work culture characteristics
@@ -525,7 +526,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function populateBirthYears() {
     const select = document.getElementById('birth-year');
-    const currentYear = new Date().getFullYear();
     const startYear = 1940;
     const endYear = currentYear - 13; // Minimum working age context
 
@@ -575,24 +575,29 @@ function handleLinkedInExplain() {
     const birthYear = parseInt(document.getElementById('birth-year').value);
 
     if (!linkedInUrl) {
-        alert('Please enter a LinkedIn profile URL');
+        showInlineMessage('Paste a LinkedIn profile URL, or skip this and use the manual fields below.', 'error');
         return;
     }
 
     if (!birthYear) {
-        alert('Please select your birth year');
+        showInlineMessage('Select your birth year first so the explanation can adjust its tone.', 'error');
         return;
     }
 
     // Extract username from LinkedIn URL for display purposes
     const username = extractLinkedInUsername(linkedInUrl);
+    if (!username) {
+        showInlineMessage('That does not look like a LinkedIn profile URL. Try a URL like https://www.linkedin.com/in/username.', 'error');
+        return;
+    }
 
-    alert(`To fully analyze a LinkedIn profile, this app would need to access the LinkedIn API or use a scraping service. For now, please use the manual entry form below to enter the job details you see on the profile for "${username}".`);
+    showInlineMessage(`Got ${username}. Now enter the job title and company shown on the profile below.`);
+    document.getElementById('job-title').focus();
 }
 
 function extractLinkedInUsername(url) {
     const match = url.match(/linkedin\.com\/in\/([^\/\?]+)/i);
-    return match ? match[1] : 'unknown';
+    return match ? decodeURIComponent(match[1]).replace(/\/$/, '') : '';
 }
 
 function handleManualExplain() {
@@ -604,12 +609,12 @@ function handleManualExplain() {
     const yourLocation = document.getElementById('your-location').value;
 
     if (!jobTitle) {
-        alert('Please enter a job title');
+        showInlineMessage('Enter a job title to explain.', 'error');
         return;
     }
 
     if (!birthYear) {
-        alert('Please select your birth year');
+        showInlineMessage('Select your birth year so the explanation can use the right generational lens.', 'error');
         return;
     }
 
@@ -623,6 +628,19 @@ function handleManualExplain() {
     });
 
     displayResults(results);
+    clearInlineMessage();
+}
+
+function showInlineMessage(message, type = 'info') {
+    const messageEl = document.getElementById('form-message');
+    messageEl.textContent = message;
+    messageEl.className = `form-message show ${type === 'error' ? 'error' : ''}`;
+}
+
+function clearInlineMessage() {
+    const messageEl = document.getElementById('form-message');
+    messageEl.textContent = '';
+    messageEl.className = 'form-message';
 }
 
 function generateExplanation({ jobTitle, company, industry, theirLocation, birthYear, yourLocation }) {
@@ -675,6 +693,8 @@ function parseJobTitle(title) {
 
 function generateWhatTheyDo(jobInfo, company, industryInfo, userGeneration) {
     let explanation = '';
+    const safeCompany = escapeHTML(company);
+    const safeTitle = escapeHTML(jobInfo.original);
 
     if (jobInfo.role) {
         // We have a recognized role
@@ -696,11 +716,11 @@ function generateWhatTheyDo(jobInfo, company, industryInfo, userGeneration) {
 
         // Add company context if provided
         if (company) {
-            explanation += `<p>At ${company}, this likely means ${getCompanyContext(company, industryInfo, jobInfo)}.</p>`;
+            explanation += `<p>At ${safeCompany}, this likely means ${getCompanyContext(company, industryInfo, jobInfo)}.</p>`;
         }
     } else {
         // Unknown role - provide general explanation
-        explanation = `<p>"${jobInfo.original}" is the official title, but here's what that probably means in plain terms:</p>`;
+        explanation = `<p>"${safeTitle}" is the official title, but here's what that probably means in plain terms:</p>`;
 
         if (jobInfo.seniority) {
             explanation += `<p>The "${jobInfo.seniority.key}" part means they have ${getSeniorityMeaning(jobInfo.seniority)}.</p>`;
@@ -742,11 +762,21 @@ function generateWhyTheyDoIt(jobInfo, company, industryInfo, theirRegion, userGe
     if (company) {
         const companyMotivation = getCompanyMotivation(company);
         if (companyMotivation) {
-            explanation += `<p><strong>Working at ${company}:</strong> ${companyMotivation}</p>`;
+            explanation += `<p><strong>Working at ${escapeHTML(company)}:</strong> ${companyMotivation}</p>`;
         }
     }
 
     return explanation;
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[char]));
 }
 
 function getGenerationalWorkView(generation) {

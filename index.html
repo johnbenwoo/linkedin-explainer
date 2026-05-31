@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What Do They Actually Do For Work?</title>
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,7 +24,7 @@
                         placeholder="https://www.linkedin.com/in/username"
                         autocomplete="off"
                     >
-                    <span class="helper-text">Paste the full LinkedIn profile URL</span>
+                    <span class="helper-text">Optional reference only. This prototype does not scrape LinkedIn.</span>
                 </div>
 
                 <div class="input-group">
@@ -47,6 +48,8 @@
                     </select>
                     <span class="helper-text">Helps contextualize the explanation</span>
                 </div>
+
+                <div class="form-message" id="form-message" aria-live="polite"></div>
 
                 <button id="explain-btn" class="primary-btn">Explain This Job</button>
             </section>

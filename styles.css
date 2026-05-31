@@ -99,6 +99,27 @@ select:focus {
     color: var(--text-secondary);
 }
 
+.form-message {
+    display: none;
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #eef6ff;
+    color: var(--primary-dark);
+    font-size: 0.95rem;
+}
+
+.form-message.show {
+    display: block;
+}
+
+.form-message.error {
+    background: #fff2f0;
+    border-color: #ffd2cc;
+    color: #9f1d12;
+}
+
 #generation-label {
     font-weight: 500;
     color: var(--primary);

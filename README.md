@@ -7,7 +7,8 @@ A static prototype that turns job titles into plain-language explanations, with 
 - Explains common roles in everyday language.
 - Adds context about industry norms, work culture, and regional expectations.
 - Lets users enter job details manually.
-- Includes a LinkedIn URL field as a concept prompt, but does not scrape LinkedIn or call the LinkedIn API.
+- Includes a LinkedIn URL field as an optional reference prompt, but does not scrape LinkedIn or call the LinkedIn API.
+- Uses inline guidance instead of blocking browser alerts.
 
 ## Run Locally
 
