@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Do They Actually Do For Work?</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>What Do They Actually Do For Work?</h1>
+            <p class="subtitle">Plain-language job explanations tailored to your generation</p>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <div class="input-group">
+                    <label for="linkedin-url">LinkedIn Profile URL</label>
+                    <input
+                        type="url"
+                        id="linkedin-url"
+                        placeholder="https://www.linkedin.com/in/username"
+                        autocomplete="off"
+                    >
+                    <span class="helper-text">Paste the full LinkedIn profile URL</span>
+                </div>
+
+                <div class="input-group">
+                    <label for="birth-year">Your Birth Year</label>
+                    <select id="birth-year">
+                        <option value="">Select your birth year</option>
+                    </select>
+                    <span class="helper-text" id="generation-label"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="your-location">Your Location (Optional)</label>
+                    <select id="your-location">
+                        <option value="">Select your region</option>
+                        <option value="northeast">Northeast (NY, MA, PA, etc.)</option>
+                        <option value="southeast">Southeast (FL, GA, NC, etc.)</option>
+                        <option value="midwest">Midwest (IL, OH, MI, etc.)</option>
+                        <option value="southwest">Southwest (TX, AZ, NM, etc.)</option>
+                        <option value="west">West Coast (CA, WA, OR)</option>
+                        <option value="mountain">Mountain West (CO, UT, NV, etc.)</option>
+                    </select>
+                    <span class="helper-text">Helps contextualize the explanation</span>
+                </div>
+
+                <button id="explain-btn" class="primary-btn">Explain This Job</button>
+            </section>
+
+            <section class="manual-input-section">
+                <div class="divider">
+                    <span>or enter job details manually</span>
+                </div>
+
+                <div class="manual-inputs">
+                    <div class="input-group">
+                        <label for="job-title">Job Title</label>
+                        <input type="text" id="job-title" placeholder="e.g., Senior Product Manager">
+                    </div>
+                    <div class="input-group">
+                        <label for="company">Company</label>
+                        <input type="text" id="company" placeholder="e.g., Google, Local Bank, Startup">
+                    </div>
+                    <div class="input-group">
+                        <label for="industry">Industry</label>
+                        <select id="industry">
+                            <option value="">Select industry</option>
+                            <option value="tech">Technology / Software</option>
+                            <option value="finance">Finance / Banking</option>
+                            <option value="healthcare">Healthcare / Medical</option>
+                            <option value="education">Education</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="retail">Retail / Consumer</option>
+                            <option value="consulting">Consulting / Professional Services</option>
+                            <option value="government">Government / Public Sector</option>
+                            <option value="nonprofit">Nonprofit / NGO</option>
+                            <option value="media">Media / Entertainment</option>
+                            <option value="realestate">Real Estate</option>
+                            <option value="legal">Legal</option>
+                            <option value="energy">Energy / Utilities</option>
+                            <option value="agriculture">Agriculture</option>
+                            <option value="hospitality">Hospitality / Food Service</option>
+                            <option value="construction">Construction / Trades</option>
+                            <option value="transportation">Transportation / Logistics</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="their-location">Their Location</label>
+                        <select id="their-location">
+                            <option value="">Select their region</option>
+                            <option value="northeast">Northeast (NY, MA, PA, etc.)</option>
+                            <option value="southeast">Southeast (FL, GA, NC, etc.)</option>
+                            <option value="midwest">Midwest (IL, OH, MI, etc.)</option>
+                            <option value="southwest">Southwest (TX, AZ, NM, etc.)</option>
+                            <option value="west">West Coast (CA, WA, OR)</option>
+                            <option value="mountain">Mountain West (CO, UT, NV, etc.)</option>
+                            <option value="remote">Remote / Distributed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="explain-manual-btn" class="primary-btn">Explain This Job</button>
+            </section>
+
+            <section id="results" class="results-section hidden">
+                <div class="result-card">
+                    <h2>What They Actually Do</h2>
+                    <div id="what-they-do" class="explanation"></div>
+                </div>
+
+                <div class="result-card why-card">
+                    <h2>Why They Do It</h2>
+                    <p class="why-subtitle">The meaning of work through a generational and cultural lens</p>
+                    <div id="why-they-do-it" class="explanation"></div>
+                </div>
+
+                <div class="result-card context-card">
+                    <h2>Context Matters</h2>
+                    <div id="context-info" class="context-grid"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Understanding work across generations</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
